@@ -55,7 +55,7 @@ public class ModChooserPanel extends DarkFileChooserPanel {
         AtomicReference<String> modRootPath = new AtomicReference<>("-1");
 
         localModDarkButton.addActionListener(e -> {
-            modRootPath.set("P:\\");
+            modRootPath.set(SettingsManager.getWorkDrivePath());
             if (!Files.exists(Path.of(modRootPath.get())))
                 JOptionPane.showMessageDialog(null,
                         new DarkLabel("Looks like disk P was not found, mount it in DayZ Tools!"),
@@ -68,7 +68,7 @@ public class ModChooserPanel extends DarkFileChooserPanel {
             }
         });
         workshopModDarkButton.addActionListener(e -> {
-            modRootPath.set("P:\\Workshop");
+            modRootPath.set(SettingsManager.getWorkDrivePath()+"Workshop");
             if (!Files.exists(Path.of(modRootPath.get()))) {
                 if (SettingsManager.getGamePath().isEmpty()) {
                     JOptionPane.showMessageDialog(null,

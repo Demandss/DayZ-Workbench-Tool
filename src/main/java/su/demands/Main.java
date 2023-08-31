@@ -1,10 +1,8 @@
 package su.demands;
 
 import lombok.SneakyThrows;
-import org.apache.commons.io.FileUtils;
 import su.demands.common.ModificationManager;
 import su.demands.common.SettingsManager;
-import su.demands.common.tools.ReferenceToolsPath;
 import su.demands.common.tools.WindowsToolsBatch;
 import su.demands.darkswing.DarkSwingColors;
 import su.demands.darkswing.elements.label.DarkLabel;
@@ -14,7 +12,7 @@ import javax.swing.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Objects;
+import java.util.Arrays;
 
 public class Main {
 
@@ -24,20 +22,19 @@ public class Main {
     public static String DATA_PATH = System.getenv("APPDATA") + "/.dayzworkbenchtool";
 
     public static void main(String[] args) {
+        settingsManager = new SettingsManager();
+
         UIManager.put("OptionPane.background", DarkSwingColors.FRAME_BACKGROUND);
-        if (!Files.exists(Path.of("P:\\"))) {
+        if (!Files.exists(Path.of(SettingsManager.getWorkDrivePath()))) {
             UIManager.put("Panel.background", DarkSwingColors.FRAME_BACKGROUND);
             JOptionPane.showMessageDialog(null,
-                    new DarkLabel("Looks like disk P was not found, mount it in DayZ Tools!"),
+                    new DarkLabel("Looks like disk "+SettingsManager.getWorkDrivePath()+" was not found, mount it in DayZ Tools!"),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             System.exit(0);
         }
 
-        settingsManager = new SettingsManager();
         windowsToolsBatch = new WindowsToolsBatch();
-
-        ModificationManager.makeMklinkWorkshop();
 
         loadDayZWorkbenchToolMod();
 
@@ -68,12 +65,22 @@ public class Main {
 
     @SneakyThrows
     static void loadDayZWorkbenchToolMod() {
+        //temp
+        String[] pluginFiles = {"StartDebugAll.c","StartDebugClient.c","StartDebugServer.c"};
+
         Path path = Path.of(SettingsManager.getWorkDrivePath() + "\\scripts\\editor\\plugins\\DayZWorkbenchTool\\");
 
         if (!Files.exists(path)) {
-            Path pathSrc = Path.of(Objects.requireNonNull(Main.class.getResource("/assets/DayZWorkbenchTool/")).toString().substring(6));
-
-            FileUtils.copyDirectory(pathSrc.toFile(), path.toFile());
+            Files.createDirectories(path);
+            Path finalPath = path;
+            Arrays.stream(pluginFiles).toList().forEach(name -> {
+                Path target = Path.of(finalPath + name);
+                try {
+                    Files.copy(Main.class.getResourceAsStream("/assets/DayZWorkbenchTool/"+name),target);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
         }
 
         path = Path.of(DATA_PATH + "\\tools\\");

@@ -15,7 +15,6 @@ public class GlobalSettingPanel extends SettingBasePanel {
     private DarkFileChooserPanel gamePathFileChooser;
     private DarkFileChooserPanel workDriveFileChooser;
     private DarkFileChooserPanel workbenchPathFileChooser;
-    private DarkFileChooserPanel workshopPathFileChooser;
 
     public GlobalSettingPanel(Dimension size) {
         super(size);
@@ -50,8 +49,8 @@ public class GlobalSettingPanel extends SettingBasePanel {
         workDriveFileChooser.getFileChooser().setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         workDriveFileChooser.setEnabled(false);
 
-        /*if (!SettingsManager.getWorkDrivePath().replace("\\\\","\\").equals("P:\\"))
-            workDriveFileChooser.getTextField().setText(SettingsManager.getWorkDrivePath().replace("\\\\","\\"));*/
+        if (!SettingsManager.getWorkDrivePath().replace("\\\\","\\").equals("P:\\"))
+            workDriveFileChooser.getTextField().setText(SettingsManager.getWorkDrivePath().replace("\\\\","\\"));
 
         constraints.gridx = 1;
         addElement(workDriveFileChooser);
@@ -77,8 +76,8 @@ public class GlobalSettingPanel extends SettingBasePanel {
     public void saveSetting() {
         SettingsManager.setGamePath(gamePathFileChooser.getPath().toString());
 
-        /*if (!workDriveFileChooser.getPath().toString().isEmpty())
-            SettingsManager.setWorkDrivePath(workDriveFileChooser.getPath().toString());*/
+        if (!workDriveFileChooser.getPath().toString().isEmpty())
+            SettingsManager.setWorkDrivePath(workDriveFileChooser.getPath().toString());
 
         SettingsManager.setWorkbenchPath(workbenchPathFileChooser.getPath().toString());
     }

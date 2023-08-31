@@ -41,6 +41,7 @@ public class MainFrame extends BaseFrame {
     }
 
     void toolsFixScriptsMenuItemAction(ActionEvent event) {
+        WindowsToolsBatch.buildUserSettings();
         try {
             Runtime.getRuntime().exec("cmd /c " + ReferenceToolsPath.DATA_PATH_FIX_SCRIPTS);
         } catch (IOException e) {

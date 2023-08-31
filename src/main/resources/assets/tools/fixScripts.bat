@@ -1,9 +1,10 @@
 @echo off
 
 setlocal enableextensions enabledelayedexpansion
+CALL %appdata%/.dayzworkbenchtool./tools/UserSettings.bat
 
 set PREFIX=DayZ
-set ROOT_DIR=P:\scripts
+set ROOT_DIR=%WORKDRIVE_PATH%scripts
 
 set list=1_Core 2_GameLib 3_Game 4_World 5_Mission editor\Workbench editor\plugins
 for %%a in (%list%) do (
@@ -21,5 +22,3 @@ for %%a in (%list%) do (
 )
 
 endlocal
-
-TIMEOUT 0
