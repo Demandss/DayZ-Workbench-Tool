@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+}
+
+group = 'su.demands'
+version = '1.0.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+
+    implementation 'com.github.Demandss:darkswing:master-SNAPSHOT'
+
+    implementation 'commons-io:commons-io:2.13.0'
+
+    implementation 'com.google.code.gson:gson:2.10.1'
+
+    implementation 'org.jetbrains:annotations:24.0.0'
+}
+
+configurations.configureEach {
+    resolutionStrategy.cacheChangingModulesFor 60, 'seconds'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.incremental = true
+    sourceCompatibility = "16"
+    targetCompatibility = "16"
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'su.demands.Main'
+        )
+    }
+}
