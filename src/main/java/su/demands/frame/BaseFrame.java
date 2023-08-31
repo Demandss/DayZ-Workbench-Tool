@@ -34,13 +34,13 @@ public abstract class BaseFrame extends JFrame {
         DarkLabel demands = new DarkLabel("Powered by ©Demands.");
         demands.setForeground(Color.decode("#404348"));
         demands.setFont(new Font("Inter", Font.PLAIN,14));
-        demands.setToolTipText("github.com/Demandss/DayZ-WorkbenchTool");
+        demands.setToolTipText("github.com/Demandss/DayZ-Workbench-Tool");
         demands.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (Desktop.isDesktopSupported()) {
                     try {
-                        Desktop.getDesktop().browse(URI.create("https://github.com/Demandss/DayZ-WorkbenchTool"));
+                        Desktop.getDesktop().browse(URI.create("https://github.com/Demandss/DayZ-Workbench-Tool"));
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
