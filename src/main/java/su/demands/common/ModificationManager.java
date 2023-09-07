@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.StringJoiner;
 
@@ -122,15 +123,15 @@ public class ModificationManager {
                 .toList());
 
         if (!modifications.isEmpty()) {
-            for (String mod: modifications) {
-                Path path = Path.of(mod);
-                if (Files.exists(path)) {
-                    modifications.remove(mod);
+            for (Iterator<String> iterator = modifications.iterator(); iterator.hasNext(); ) {
+                File mod = new File(iterator.next());
+                if (mod.exists()) {
+                    iterator.remove();
                 }
             }
         }
 
-        if (modifications.isEmpty()) return;;
+        if (modifications.isEmpty()) return;
 
         StringJoiner mods = new StringJoiner("<br>");
         modifications.forEach(mods::add);
