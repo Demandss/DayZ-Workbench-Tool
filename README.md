@@ -18,4 +18,7 @@ Downloading
 - [jdk-17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html);
 
 Next, you need to open (recommended as Administrator) the release you downloaded and enjoy.
+
 After launching and configuring before work, execute tools->fixscripts.
+
+Also, for work, you need to download DayZServer in steam and transfer the mpmissions folder and the serverDZ.cfg file from there to your game folder.

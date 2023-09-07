@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Main {
 
@@ -74,9 +75,9 @@ public class Main {
             Files.createDirectories(path);
             Path finalPath = path;
             Arrays.stream(pluginFiles).toList().forEach(name -> {
-                Path target = Path.of(finalPath + name);
+                Path target = Path.of(finalPath + "\\" + name);
                 try {
-                    Files.copy(Main.class.getResourceAsStream("/assets/DayZWorkbenchTool/"+name),target);
+                    Files.copy(Objects.requireNonNull(Main.class.getResourceAsStream("/assets/DayZWorkbenchTool/" + name)),target);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
