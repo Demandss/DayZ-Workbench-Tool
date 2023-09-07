@@ -1,6 +1,5 @@
 package su.demands.frame.main;
 
-import lombok.SneakyThrows;
 import su.demands.common.ModificationManager;
 import su.demands.common.SettingsManager;
 import su.demands.common.tools.ReferenceToolsPath;

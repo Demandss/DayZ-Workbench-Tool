@@ -4,12 +4,14 @@ import su.demands.darkswing.DarkSwingColors;
 import su.demands.darkswing.elements.label.DarkLabel;
 import su.demands.darkswing.elements.menuBar.DarkMenuBar;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URI;
+import java.util.Objects;
 
 public abstract class BaseFrame extends JFrame {
 
@@ -26,6 +28,12 @@ public abstract class BaseFrame extends JFrame {
         getContentPane().setBackground(getBackground());
         initElements();
         permanentElements();
+
+        try {
+            setIconImage(new ImageIcon(ImageIO.read(getClass().getResource("/assets/logo/logo.png"))).getImage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     protected abstract void initElements();
