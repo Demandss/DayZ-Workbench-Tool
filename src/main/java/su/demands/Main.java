@@ -55,12 +55,13 @@ public class Main {
                 }
             }
 
-            try {
-                Runtime.getRuntime().exec("cmd /c tasklist | find /i \"workbenchApp.exe\">nul && Taskkill /F /IM  \"workbenchApp.exe\"");
-                Runtime.getRuntime().exec("cmd /c tasklist | find /i \"DayZDiag_x64.exe\">nul && Taskkill /F /IM  \"DayZDiag_x64.exe\"");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            SettingsManager.getTaskKillList().forEach(taskName -> {
+                try {
+                    Runtime.getRuntime().exec("cmd /c tasklist | find /i \"%task%\">nul && Taskkill /F /IM  \"%task%\"".replaceAll("%task%",taskName));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
         }));
     }
 

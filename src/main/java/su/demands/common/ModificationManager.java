@@ -9,7 +9,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 public class ModificationManager {
 
@@ -112,5 +114,31 @@ public class ModificationManager {
         if (Files.exists(gameScriptsLinkPath) && Files.isSymbolicLink(gameScriptsLinkPath)) {
             Files.delete(gameScriptsLinkPath);
         }
+    }
+
+    public static void checkingExistenceMods() {
+        ArrayList<String> modifications = new ArrayList<>(SettingsManager.getAllMods().stream()
+                .filter(mod -> !mod.contains("@"))
+                .toList());
+
+        if (!modifications.isEmpty()) {
+            for (String mod: modifications) {
+                Path path = Path.of(mod);
+                if (Files.exists(path)) {
+                    modifications.remove(mod);
+                }
+            }
+        }
+
+        if (modifications.isEmpty()) return;;
+
+        StringJoiner mods = new StringJoiner("<br>");
+        modifications.forEach(mods::add);
+
+        UIManager.put("Panel.background", DarkSwingColors.FRAME_BACKGROUND);
+        JOptionPane.showMessageDialog(null,
+                new DarkLabel("<html>Looks like these mods don't exist anymore:<br>" + mods),
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
     }
 }

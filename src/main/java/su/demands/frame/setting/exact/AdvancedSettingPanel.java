@@ -7,6 +7,8 @@ import su.demands.darkswing.elements.textfield.DarkTextField;
 import su.demands.frame.setting.SettingBasePanel;
 
 import java.awt.*;
+import java.util.List;
+import java.util.StringJoiner;
 
 
 @Getter
@@ -15,6 +17,7 @@ public class AdvancedSettingPanel extends SettingBasePanel {
     private DarkTextField clientArgumentsTextField;
     private DarkTextField clientSandboxArgumentsTextField;
     private DarkTextField serverArgumentsTextField;
+    private DarkTextField taskKillListTextField;
 
     public AdvancedSettingPanel(Dimension size) {
         super(size);
@@ -70,6 +73,27 @@ public class AdvancedSettingPanel extends SettingBasePanel {
 
         constraints.gridx = 1;
         addElement(serverArgumentsTextField);
+
+        DarkLabel taskKillListLabel = new DarkLabel("Auto task kill list");
+
+        taskKillListLabel.setFont(new Font("Inter", Font.PLAIN,12));
+
+        constraints.gridx = 0;
+        constraints.gridy = 3;
+        addElement(taskKillListLabel);
+
+        taskKillListTextField = new DarkTextField();
+
+        StringJoiner taskKillList = new StringJoiner(", ");
+        SettingsManager.getTaskKillList().forEach(taskKillList::add);
+
+        taskKillListTextField.setText(taskKillList.toString());
+        taskKillListTextField.setCaretPosition(0);
+        taskKillListTextField.setPreferredSize(new Dimension(85,20));
+        taskKillListTextField.getTextPrompt().setText("workbenchApp.exe, DayZDiag_x64.exe");
+
+        constraints.gridx = 1;
+        addElement(taskKillListTextField);
     }
 
     @Override
@@ -77,5 +101,6 @@ public class AdvancedSettingPanel extends SettingBasePanel {
         SettingsManager.setClientArguments(clientArgumentsTextField.getText());
         SettingsManager.setClientSandboxArguments(clientSandboxArgumentsTextField.getText());
         SettingsManager.setServerArguments(serverArgumentsTextField.getText());
+        SettingsManager.setTaskKillList(List.of(taskKillListTextField.getText().replace(" ","").split(",")));
     }
 }

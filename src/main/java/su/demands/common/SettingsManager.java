@@ -2,6 +2,7 @@ package su.demands.common;
 
 import com.google.gson.*;
 import lombok.SneakyThrows;
+import lombok.val;
 import su.demands.Main;
 import su.demands.darkswing.DarkSwingColors;
 import su.demands.darkswing.elements.label.DarkLabel;
@@ -193,7 +194,7 @@ public class SettingsManager {
 
         ArrayList<String> mods = new ArrayList<>(getServerMods());
         mods.remove(mod);
-        setClientMods(mods);
+        setServerMods(mods);
         syncSettingsInFile();
     }
 
@@ -231,5 +232,32 @@ public class SettingsManager {
             return true;
         }
         return false;
+    }
+
+    public static List<String> getTaskKillList() {
+        return jsonObject.get("task_kill_list").getAsJsonArray().asList().stream().map(JsonElement::getAsString).toList();
+    }
+
+    public static void setTaskKillList(List<String> value) {
+        jsonObject.add("task_kill_list",new GsonBuilder().create().toJsonTree(value));
+    }
+
+    public static void addTaskKill(String mod) {
+        if (mod.isEmpty()) return;
+
+        ArrayList<String> mods = new ArrayList<>(getTaskKillList());
+        if (!mods.contains(mod))
+            mods.add(mod);
+        setTaskKillList(mods);
+        syncSettingsInFile();
+    }
+
+    public static void removeTaskKill(String mod) {
+        if (mod.isEmpty()) return;
+
+        ArrayList<String> mods = new ArrayList<>(getTaskKillList());
+        mods.remove(mod);
+        setTaskKillList(mods);
+        syncSettingsInFile();
     }
 }

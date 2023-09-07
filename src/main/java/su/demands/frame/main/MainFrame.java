@@ -53,6 +53,8 @@ public class MainFrame extends BaseFrame {
     }
 
     void workbenchDarkButtonAction(ActionEvent event) {
+        ModificationManager.checkingExistenceMods();
+
         WindowsToolsBatch.buildUserSettings();
         ModificationManager.removeMklinkMods();
         ModificationManager.makeMklinkMods();
@@ -64,6 +66,8 @@ public class MainFrame extends BaseFrame {
     }
 
     void debugClientDarkButtonAction(ActionEvent event) {
+        ModificationManager.checkingExistenceMods();
+
         WindowsToolsBatch.buildUserSettings();
         ModificationManager.removeMklinkMods();
         ModificationManager.makeMklinkMods();
@@ -79,6 +83,8 @@ public class MainFrame extends BaseFrame {
     }
 
     void debugAllDarkButtonAction(ActionEvent event) {
+        ModificationManager.checkingExistenceMods();
+
         WindowsToolsBatch.buildUserSettings();
         ModificationManager.removeMklinkMods();
         ModificationManager.makeMklinkMods();
@@ -90,6 +96,8 @@ public class MainFrame extends BaseFrame {
     }
 
     void debugServerDarkButtonAction(ActionEvent event) {
+        ModificationManager.checkingExistenceMods();
+
         WindowsToolsBatch.buildUserSettings();
         ModificationManager.removeMklinkMods();
         ModificationManager.makeMklinkMods();
