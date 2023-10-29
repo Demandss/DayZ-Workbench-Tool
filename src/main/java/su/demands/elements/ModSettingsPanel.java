@@ -103,11 +103,11 @@ public class ModSettingsPanel extends ModChooserPanel {
                 .collect(Collectors.groupingBy(Modification::getSide));
 
         SettingsManager.setClientMods(mods.get(Modification.ESide.CLIENT).stream()
-                .map(mod -> mod.getPath().toString() + "§" + mod.isEnabled())
+                .map(mod -> mod.getPath().toString() + "&" + mod.isEnabled())
                 .toList());
 
         SettingsManager.setServerMods(mods.get(Modification.ESide.SERVER).stream()
-                .map(mod -> mod.getPath().toString() + "§" + mod.isEnabled())
+                .map(mod -> mod.getPath().toString() + "&" + mod.isEnabled())
                 .toList());
 
         SettingsManager.syncSettingsInFile();

@@ -71,6 +71,8 @@ public class Main {
     }
 
     public static void globalLoadMods() {
+        ReferenceTools.MODIFICATIONS.clear();
+
         List<String> mods = SettingsManager.getClientMods();
 
         for (int i = 0; i < mods.size(); i++) {

@@ -24,7 +24,7 @@ public class Modification {
         this.side = side;
         this.type = type;
 
-        String[] splittedText = text.split("§");
+        String[] splittedText = text.split("&");
         this.isEnabled = Boolean.parseBoolean(splittedText[1]);
         this.path = Path.of(splittedText[0]);
         this.name = path.getFileName().toString().replace("@","");
@@ -36,7 +36,7 @@ public class Modification {
     }
 
     public Modification(String text, ESide side, int loadingPriority) {
-        this(text,side,Path.of(text.split("§")[0]).getFileName().toString().contains("@") ? EType.WORKSHOP : EType.LOCAL,loadingPriority);
+        this(text,side,Path.of(text.split("&")[0]).getFileName().toString().contains("@") ? EType.WORKSHOP : EType.LOCAL,loadingPriority);
     }
 
     public Modification() {

@@ -155,6 +155,8 @@ public class SettingsManager {
     public static void addClientMod(String mod) {
         if (mod.isEmpty()) return;
 
+        mod += "&true";
+
         ArrayList<String> mods = new ArrayList<>(getClientMods());
         if (!mods.contains(mod))
             mods.add(mod);
@@ -181,6 +183,8 @@ public class SettingsManager {
 
     public static void addServerMod(String mod) {
         if (mod.isEmpty()) return;
+
+        mod += "&true";
 
         ArrayList<String> mods = new ArrayList<>(getServerMods());
         if (!mods.contains(mod))
