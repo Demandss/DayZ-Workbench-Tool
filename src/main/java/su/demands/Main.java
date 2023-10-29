@@ -3,9 +3,11 @@ package su.demands;
 import lombok.SneakyThrows;
 import su.demands.common.ModificationManager;
 import su.demands.common.SettingsManager;
+import su.demands.common.tools.ReferenceTools;
 import su.demands.common.tools.WindowsToolsBatch;
 import su.demands.darkswing.DarkSwingColors;
 import su.demands.darkswing.elements.label.DarkLabel;
+import su.demands.elements.Modification;
 import su.demands.frame.main.MainFrame;
 
 import javax.swing.*;
@@ -13,6 +15,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class Main {
@@ -63,6 +66,22 @@ public class Main {
                 }
             });
         }));
+
+        globalLoadMods();
+    }
+
+    public static void globalLoadMods() {
+        List<String> mods = SettingsManager.getClientMods();
+
+        for (int i = 0; i < mods.size(); i++) {
+            ReferenceTools.MODIFICATIONS.add(new Modification(mods.get(i), Modification.ESide.CLIENT,i));
+        }
+
+        mods = SettingsManager.getServerMods();
+
+        for (int i = 0; i < mods.size(); i++) {
+            ReferenceTools.MODIFICATIONS.add(new Modification(mods.get(i), Modification.ESide.SERVER,i));
+        }
     }
 
     @SneakyThrows

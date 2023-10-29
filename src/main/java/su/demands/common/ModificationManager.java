@@ -1,18 +1,19 @@
 package su.demands.common;
 
 import lombok.SneakyThrows;
+import su.demands.common.tools.ReferenceTools;
 import su.demands.darkswing.DarkSwingColors;
 import su.demands.darkswing.elements.label.DarkLabel;
+import su.demands.elements.ModListPanel;
+import su.demands.elements.Modification;
 
 import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.StringJoiner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ModificationManager {
 
@@ -38,10 +39,10 @@ public class ModificationManager {
             return;
         }
 
-        List<Path> modifications = SettingsManager.getAllMods().stream()
-                .filter(mod -> !mod.contains("@"))
-                .map(Path::of)
-                .toList();
+        List<Path> modifications = new ArrayList<>(ReferenceTools.MODIFICATIONS.stream()
+                .filter(mod -> !mod.getName().contains("@"))
+                .map(Modification::getPath)
+                .toList());
 
         if (!modifications.isEmpty()) {
             modifications.forEach(mod -> {
@@ -92,10 +93,10 @@ public class ModificationManager {
             return;
         }
 
-        List<Path> modifications = SettingsManager.getAllMods().stream()
-                .filter(mod -> !mod.contains("@"))
-                .map(Path::of)
-                .toList();
+        List<Path> modifications = new ArrayList<>(ReferenceTools.MODIFICATIONS.stream()
+                .filter(mod -> !mod.getName().contains("@"))
+                .map(Modification::getPath)
+                .toList());
 
         if (!modifications.isEmpty()) {
             modifications.forEach(mod -> {
@@ -118,8 +119,10 @@ public class ModificationManager {
     }
 
     public static void checkingExistenceMods() {
-        ArrayList<String> modifications = new ArrayList<>(SettingsManager.getAllMods().stream()
-                .filter(mod -> !mod.contains("@"))
+        ArrayList<String> modifications = new ArrayList<>(ReferenceTools.MODIFICATIONS.stream()
+                .filter(mod -> !mod.getName().contains("@"))
+                .map(Modification::getPath)
+                .map(Path::toString)
                 .toList());
 
         if (!modifications.isEmpty()) {

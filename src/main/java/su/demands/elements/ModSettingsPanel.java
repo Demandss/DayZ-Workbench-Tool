@@ -1,7 +1,9 @@
 package su.demands.elements;
 
 import lombok.Getter;
+import su.demands.Main;
 import su.demands.common.SettingsManager;
+import su.demands.common.tools.ReferenceTools;
 import su.demands.darkswing.DarkSwingColors;
 import su.demands.darkswing.elements.button.DarkButton;
 import su.demands.darkswing.elements.label.DarkLabel;
@@ -17,7 +19,10 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.partitioningBy;
 
 @Getter
 public class ModSettingsPanel extends ModChooserPanel {
@@ -83,8 +88,6 @@ public class ModSettingsPanel extends ModChooserPanel {
         plusDarkButton.addActionListener(e -> {
             Path modPath = getPath();
 
-            System.out.println(modPath);
-
             if (!Files.exists(modPath)) return;
 
             SettingsManager.addClientMod(modPath.toString());
@@ -96,26 +99,15 @@ public class ModSettingsPanel extends ModChooserPanel {
     }
 
     public void syncSettings() {
-        ArrayList<Modification> modifications = new ArrayList<>(modListPanel.modifications.stream()
-                .filter(mod -> mod.getSide() == Modification.ESide.CLIENT)
+        Map<Modification.ESide, List<Modification>> mods = modListPanel.modifications.stream()
+                .collect(Collectors.groupingBy(Modification::getSide));
+
+        SettingsManager.setClientMods(mods.get(Modification.ESide.CLIENT).stream()
+                .map(mod -> mod.getPath().toString() + "§" + mod.isEnabled())
                 .toList());
 
-        modifications.sort(Comparator.comparingInt(Modification::getLoadingPriority));
-
-        SettingsManager.setClientMods(modifications.stream()
-                .map(Modification::getPath)
-                .map(Path::toString)
-                .toList());
-
-        modifications = new ArrayList<>(modListPanel.modifications.stream()
-                .filter(mod -> mod.getSide() == Modification.ESide.SERVER)
-                .toList());
-
-        modifications.sort(Comparator.comparingInt(Modification::getLoadingPriority));
-
-        SettingsManager.setServerMods(modifications.stream()
-                .map(Modification::getPath)
-                .map(Path::toString)
+        SettingsManager.setServerMods(mods.get(Modification.ESide.SERVER).stream()
+                .map(mod -> mod.getPath().toString() + "§" + mod.isEnabled())
                 .toList());
 
         SettingsManager.syncSettingsInFile();
@@ -124,17 +116,9 @@ public class ModSettingsPanel extends ModChooserPanel {
     public void loadMods() {
         modListPanel.modifications.clear();
 
-        List<String> mods = SettingsManager.getClientMods();
+        Main.globalLoadMods();
 
-        for (int i = 0; i < mods.size(); i++) {
-            modListPanel.addMod(new Modification(Path.of(mods.get(i)), Modification.ESide.CLIENT,i));
-        }
-
-        mods = SettingsManager.getServerMods();
-
-        for (int i = 0; i < mods.size(); i++) {
-            modListPanel.addMod(new Modification(Path.of(mods.get(i)), Modification.ESide.SERVER,i));
-        }
+        ReferenceTools.MODIFICATIONS.forEach(modification -> modListPanel.addMod(modification));
 
         modListPanel.reRenderElements();
     }

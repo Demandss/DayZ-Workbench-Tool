@@ -2,7 +2,7 @@ package su.demands.frame.main;
 
 import su.demands.common.ModificationManager;
 import su.demands.common.SettingsManager;
-import su.demands.common.tools.ReferenceToolsPath;
+import su.demands.common.tools.ReferenceTools;
 import su.demands.common.tools.WindowsToolsBatch;
 import su.demands.frame.BaseFrame;
 import su.demands.frame.setting.ModsSettingFrame;
@@ -42,7 +42,7 @@ public class MainFrame extends BaseFrame {
     void toolsFixScriptsMenuItemAction(ActionEvent event) {
         WindowsToolsBatch.buildUserSettings();
         try {
-            Runtime.getRuntime().exec("cmd /c " + ReferenceToolsPath.DATA_PATH_FIX_SCRIPTS);
+            Runtime.getRuntime().exec("cmd /c " + ReferenceTools.DATA_PATH_FIX_SCRIPTS);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -59,7 +59,7 @@ public class MainFrame extends BaseFrame {
         ModificationManager.removeMklinkMods();
         ModificationManager.makeMklinkMods();
         try {
-            Runtime.getRuntime().exec("cmd /c " + ReferenceToolsPath.DATA_PATH_START_WORKBENCH);
+            Runtime.getRuntime().exec("cmd /c " + ReferenceTools.DATA_PATH_START_WORKBENCH);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -72,7 +72,7 @@ public class MainFrame extends BaseFrame {
         ModificationManager.removeMklinkMods();
         ModificationManager.makeMklinkMods();
         try {
-            Runtime.getRuntime().exec("cmd /c " + ReferenceToolsPath.DATA_PATH_START_DEBUG_CLIENT);
+            Runtime.getRuntime().exec("cmd /c " + ReferenceTools.DATA_PATH_START_DEBUG_CLIENT);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -89,7 +89,7 @@ public class MainFrame extends BaseFrame {
         ModificationManager.removeMklinkMods();
         ModificationManager.makeMklinkMods();
         try {
-            Runtime.getRuntime().exec("cmd /c " + ReferenceToolsPath.DATA_PATH_START_DEBUG_ALL);
+            Runtime.getRuntime().exec("cmd /c " + ReferenceTools.DATA_PATH_START_DEBUG_ALL);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -102,7 +102,7 @@ public class MainFrame extends BaseFrame {
         ModificationManager.removeMklinkMods();
         ModificationManager.makeMklinkMods();
         try {
-            Runtime.getRuntime().exec("cmd /c " + ReferenceToolsPath.DATA_PATH_START_DEBUG_SERVER);
+            Runtime.getRuntime().exec("cmd /c " + ReferenceTools.DATA_PATH_START_DEBUG_SERVER);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

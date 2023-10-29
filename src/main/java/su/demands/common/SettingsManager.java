@@ -198,12 +198,6 @@ public class SettingsManager {
         syncSettingsInFile();
     }
 
-    public static List<String> getAllMods() {
-        ArrayList<String> mods = new ArrayList<>(getClientMods());
-        mods.addAll(getServerMods());
-        return mods;
-    }
-
     public static boolean containsEmptyParams() {
         StringBuilder msg = new StringBuilder("<html>Looks like you forgot to set:");
 

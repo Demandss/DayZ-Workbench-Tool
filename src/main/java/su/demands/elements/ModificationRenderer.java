@@ -15,6 +15,8 @@ public class ModificationRenderer implements ListCellRenderer<Modification> {
 
     protected Modification modification;
     protected DarkButton sideButton;
+    protected DarkButton isEnableButton;
+    protected DarkPanel borderedPanel;
     protected DarkLabel nameLabel;
 
     @Override
@@ -40,10 +42,7 @@ public class ModificationRenderer implements ListCellRenderer<Modification> {
         UpdateButtonToolTip(modification);
 
         sideButton.addActionListener(e -> {
-            switch (modification.getSide()) {
-                case CLIENT -> modification.setSide(Modification.ESide.SERVER);
-                case SERVER -> modification.setSide(Modification.ESide.CLIENT);
-            }
+            modification.switchSideState();
             sideButton.setIcon(new ImageIcon(modification.getSide().getIcon()));
             UpdateButtonToolTip(modification);
             list.updateUI();
@@ -53,25 +52,55 @@ public class ModificationRenderer implements ListCellRenderer<Modification> {
 
         Image image = modification.getType().getIcon();
 
-        Border nameLabelBorder = BorderFactory.createMatteBorder(1,1,1,1, DarkSwingColors.SUB_SELECT);
+        Border nameLabelBorder = new EmptyBorder(0, 0, 12, 0);
 
         if (image != null)  {
             nameLabel = new DarkLabel(modification.getName(),new ImageIcon(image),DarkLabel.LEADING);
             nameLabel.setOpaque(false);
         } else {
             nameLabel = new DarkLabel(modification.getName());
-            nameLabelBorder = new CompoundBorder(nameLabelBorder, new EmptyBorder(0, 5, 0, 0));
+            nameLabel.setBorder(new CompoundBorder(nameLabelBorder, new EmptyBorder(0, 5, 12, 0)));
         }
 
-        nameLabel.setPreferredSize(new Dimension(310,20));
         nameLabel.setBorder(nameLabelBorder);
+        nameLabel.setPreferredSize(new Dimension(280,20));
 
-        panel.add(nameLabel);
+        borderedPanel = new DarkPanel();
+        borderedPanel.setOpaque(false);
+        borderedPanel.setBorder(BorderFactory.createMatteBorder(1,1,1,1, DarkSwingColors.SUB_SELECT));
+        borderedPanel.setPreferredSize(new Dimension(310,20));
 
-        if (isSelected)
+        borderedPanel.add(nameLabel);
+
+        isEnableButton = new DarkButton(new ImageIcon(modification.getEnableStateIcon()));
+        isEnableButton.setOpaque(true);
+        isEnableButton.setContentAreaFilled(false);
+        isEnableButton.setBorderPainted(false);
+        isEnableButton.setPreferredSize(new Dimension(16,20));
+        isEnableButton.setBorder(new EmptyBorder(0, 0, 12, 0));
+
+        isEnableButton.addActionListener(e -> {
+            modification.switchEnableState();
+            if (modification.isEnabled())
+                isEnableButton.setPreferredSize(new Dimension(16,8));
+            else
+                isEnableButton.setPreferredSize(new Dimension(16,16));
+            isEnableButton.setIcon(new ImageIcon(modification.getEnableStateIcon()));
+            UpdateButtonToolTip(modification);
+            list.updateUI();
+        });
+
+        borderedPanel.add(isEnableButton);
+
+        panel.add(borderedPanel);
+
+        if (isSelected) {
             panel.setBackground(DarkSwingColors.SELECT);
-        else
+            borderedPanel.setBackground(DarkSwingColors.SELECT);
+        } else {
             panel.setBackground(DarkSwingColors.FRAME_BACKGROUND);
+            borderedPanel.setBackground(DarkSwingColors.FRAME_BACKGROUND);
+        }
 
         return panel;
     }

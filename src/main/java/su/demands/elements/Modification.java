@@ -3,41 +3,40 @@ package su.demands.elements;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
-import su.demands.darkswing.DarkSwingColors;
-import su.demands.darkswing.elements.button.DarkButton;
-import su.demands.darkswing.elements.label.DarkLabel;
-import su.demands.darkswing.elements.panel.DarkPanel;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Objects;
 
 @Getter @Setter
 public class Modification {
 
+    protected boolean isEnabled;
     protected ESide side;
     protected EType type;
     protected String name;
     protected Path path;
     protected int loadingPriority = -1;
 
-    public Modification(Path path, ESide side, EType type, int loadingPriority) {
+    public Modification(String text, ESide side, EType type, int loadingPriority) {
         this.side = side;
         this.type = type;
+
+        String[] splittedText = text.split("§");
+        this.isEnabled = Boolean.parseBoolean(splittedText[1]);
+        this.path = Path.of(splittedText[0]);
         this.name = path.getFileName().toString().replace("@","");
-        this.path = path;
         this.loadingPriority = loadingPriority;
     }
 
-    public Modification(Path path, ESide side, EType type) {
-        this(path,side,type,-1);
+    public Modification(String text, ESide side, EType type) {
+        this(text,side,type,-1);
     }
 
-    public Modification(Path path, ESide side, int loadingPriority) {
-        this(path,side,path.getFileName().toString().contains("@") ? EType.WORKSHOP : EType.LOCAL,loadingPriority);
+    public Modification(String text, ESide side, int loadingPriority) {
+        this(text,side,Path.of(text.split("§")[0]).getFileName().toString().contains("@") ? EType.WORKSHOP : EType.LOCAL,loadingPriority);
     }
 
     public Modification() {
@@ -56,6 +55,22 @@ public class Modification {
         if (loadingPriority == 0) return;
 
         loadingPriority -= 1;
+    }
+
+    void switchSideState() {
+        switch (getSide()) {
+            case CLIENT -> setSide(Modification.ESide.SERVER);
+            case SERVER -> setSide(Modification.ESide.CLIENT);
+        }
+    }
+
+    void switchEnableState() {
+        setEnabled(!isEnabled());
+    }
+
+    @SneakyThrows
+    Image getEnableStateIcon() {
+        return ImageIO.read(getClass().getResource("/assets/images/" + (isEnabled() ? "mod_enabled.png" : "mod_disebled.png") ));
     }
 
     @Getter

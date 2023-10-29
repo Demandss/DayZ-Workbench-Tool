@@ -75,6 +75,11 @@ public class ModListPanel extends DarkScrollPane {
                         modToolTipTimer.setRepeats(false);
                         modToolTipTimer.start();*/
                     }
+
+                    if (local.x >= 320 && local.x <= 340)
+                    {
+                        cellRenderer.isEnableButton.doClick(0);
+                    }
                 }
             }
         });
@@ -121,11 +126,11 @@ public class ModListPanel extends DarkScrollPane {
         list.updateUI();
     }
 
-    public void addMod(Path path, Modification.ESide side, Modification.EType type, int priority) {
+    public void addMod(String path, Modification.ESide side, Modification.EType type, int priority) {
         this.addMod(new Modification(path,side,type,priority));
     }
 
-    public void addMod(Path path, Modification.ESide side, Modification.EType type) {
+    public void addMod(String path, Modification.ESide side, Modification.EType type) {
         this.addMod(new Modification(path,side,type));
     }
 

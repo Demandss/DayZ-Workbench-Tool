@@ -1,8 +1,12 @@
 package su.demands.common.tools;
 
 import su.demands.Main;
+import su.demands.elements.Modification;
 
-public class ReferenceToolsPath {
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class ReferenceTools {
 
     public static String DATA_PATH = Main.DATA_PATH + "/tools";
     public static String RESOURCES = "/assets/tools";
@@ -24,4 +28,6 @@ public class ReferenceToolsPath {
     public static String RESOURCES_START_DEBUG_SERVER = RESOURCES + START_DEBUG_SERVER_FILENAME;
     public static String RESOURCES_START_WORKBENCH = RESOURCES + START_WORKBENCH_FILENAME;
     public static String RESOURCES_USER_SETTINGS = RESOURCES + USER_SETTINGS_FILENAME;
+
+    public static ArrayList<Modification> MODIFICATIONS = new ArrayList<>(Collections.emptyList());
 }

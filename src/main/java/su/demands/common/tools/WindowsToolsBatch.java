@@ -2,6 +2,8 @@ package su.demands.common.tools;
 
 import lombok.SneakyThrows;
 import su.demands.common.SettingsManager;
+import su.demands.elements.ModListPanel;
+import su.demands.elements.Modification;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -9,7 +11,7 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class WindowsToolsBatch extends ReferenceToolsPath {
+public class WindowsToolsBatch extends ReferenceTools {
 
     @SneakyThrows
     public WindowsToolsBatch() {
@@ -44,29 +46,33 @@ public class WindowsToolsBatch extends ReferenceToolsPath {
         text = text.replaceAll("&WORKDRIVE_PATH&", SettingsManager.getWorkDrivePath());
         text = text.replaceAll("&WORKBENCH_PATH&", SettingsManager.getWorkbenchPath());
 
-        StringJoiner modsClient = new StringJoiner(";");
+        Map<Modification.ESide, List<Modification>> modifications = ReferenceTools.MODIFICATIONS.stream()
+                .collect(Collectors.groupingBy(Modification::getSide));
 
-        ArrayList<String> modClientList = new ArrayList<>(SettingsManager.getClientMods());
-        modClientList.forEach(modsClient::add);
+        ArrayList<String> clientModifications = new ArrayList<>(modifications.get(Modification.ESide.CLIENT).stream()
+                .filter(Modification::isEnabled)
+                .map(Modification::getPath)
+                .map(Path::toString)
+                .map(mod -> mod.replace("\\","\\\\"))
+                .toList());
 
-        text = text.replaceAll("&MODS_CLIENT&", modsClient.toString().replace("\\","\\\\"));
+        text = text.replaceAll("&MODS_CLIENT&", String.join(";", clientModifications));
 
-        StringJoiner modsServer = new StringJoiner(";");
+        ArrayList<String> serverModifications = new ArrayList<>(modifications.get(Modification.ESide.SERVER).stream()
+                .filter(Modification::isEnabled)
+                .map(Modification::getPath)
+                .map(Path::toString)
+                .map(mod -> mod.replace("\\","\\\\"))
+                .toList());
 
-        ArrayList<String> modServerList = new ArrayList<>(SettingsManager.getServerMods());
-        modServerList.forEach(modsServer::add);
+        text = text.replaceAll("&MODS_SERVER&", String.join(";", serverModifications));
 
-        text = text.replaceAll("&MODS_SERVER&", modsServer.toString().replace("\\","\\\\"));
-
-        ArrayList<String> allMods = new ArrayList<>(modClientList);
-        allMods.addAll(modServerList);
+        ArrayList<String> allMods = new ArrayList<>(clientModifications);
+        allMods.addAll(serverModifications);
         allMods.sort(Comparator.comparing(mod -> mod.contains("@")));
         allMods = new ArrayList<>(allMods.stream().map(mod -> mod.replace("\\","\\\\")).toList());
 
-        StringJoiner loadMods = new StringJoiner(";");
-        allMods.forEach(loadMods::add);
-
-        text = text.replaceAll("&LOAD_MODS&", loadMods.toString());
+        text = text.replaceAll("&LOAD_MODS&", String.join(";", allMods));
 
         text = text.replaceAll("&SERVER_ARGS&", SettingsManager.getServerArguments());
         text = text.replaceAll("&CLIENT_ARGS&", SettingsManager.getClientArguments());
