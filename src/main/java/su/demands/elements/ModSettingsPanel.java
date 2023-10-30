@@ -17,7 +17,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -102,13 +102,19 @@ public class ModSettingsPanel extends ModChooserPanel {
         Map<Modification.ESide, List<Modification>> mods = modListPanel.modifications.stream()
                 .collect(Collectors.groupingBy(Modification::getSide));
 
-        SettingsManager.setClientMods(mods.get(Modification.ESide.CLIENT).stream()
-                .map(mod -> mod.getPath().toString() + "&" + mod.isEnabled())
-                .toList());
+        if (mods.get(Modification.ESide.CLIENT) != null)
+            SettingsManager.setClientMods(mods.get(Modification.ESide.CLIENT).stream()
+                    .map(mod -> mod.getPath().toString() + "&" + mod.isEnabled())
+                    .toList());
+        else
+            SettingsManager.setClientMods(new ArrayList<>(Collections.emptyList()));
 
-        SettingsManager.setServerMods(mods.get(Modification.ESide.SERVER).stream()
-                .map(mod -> mod.getPath().toString() + "&" + mod.isEnabled())
-                .toList());
+        if (mods.get(Modification.ESide.SERVER) != null)
+            SettingsManager.setServerMods(mods.get(Modification.ESide.SERVER).stream()
+                    .map(mod -> mod.getPath().toString() + "&" + mod.isEnabled())
+                    .toList());
+        else
+            SettingsManager.setServerMods(new ArrayList<>(Collections.emptyList()));
 
         SettingsManager.syncSettingsInFile();
     }

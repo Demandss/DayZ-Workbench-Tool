@@ -3,6 +3,7 @@ package su.demands.elements;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import su.demands.common.tools.ReferenceTools;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -58,10 +59,12 @@ public class Modification {
     }
 
     void switchSideState() {
+        ReferenceTools.MODIFICATIONS.remove(this);
         switch (getSide()) {
-            case CLIENT -> setSide(Modification.ESide.SERVER);
-            case SERVER -> setSide(Modification.ESide.CLIENT);
+            case CLIENT -> setSide(ESide.SERVER);
+            case SERVER -> setSide(ESide.CLIENT);
         }
+        ReferenceTools.MODIFICATIONS.add(this);
     }
 
     void switchEnableState() {
