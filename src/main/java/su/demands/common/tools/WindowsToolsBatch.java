@@ -49,30 +49,44 @@ public class WindowsToolsBatch extends ReferenceTools {
         Map<Modification.ESide, List<Modification>> modifications = ReferenceTools.MODIFICATIONS.stream()
                 .collect(Collectors.groupingBy(Modification::getSide));
 
-        ArrayList<String> clientModifications = new ArrayList<>(modifications.get(Modification.ESide.CLIENT).stream()
+        ArrayList<String> clientModifications = null;
+
+        if (modifications.get(Modification.ESide.CLIENT) != null)
+            clientModifications = new ArrayList<>(modifications.get(Modification.ESide.CLIENT).stream()
                 .filter(Modification::isEnabled)
                 .map(Modification::getPath)
                 .map(Path::toString)
                 .map(mod -> mod.replace("\\","\\\\"))
                 .toList());
 
-        text = text.replaceAll("&MODS_CLIENT&", String.join(";", clientModifications));
+        text = text.replaceAll("&MODS_CLIENT&", clientModifications != null ? String.join(";", clientModifications) : "");
 
-        ArrayList<String> serverModifications = new ArrayList<>(modifications.get(Modification.ESide.SERVER).stream()
+        ArrayList<String> serverModifications = null;
+
+        if (modifications.get(Modification.ESide.SERVER) != null)
+            serverModifications = new ArrayList<>(modifications.get(Modification.ESide.SERVER).stream()
                 .filter(Modification::isEnabled)
                 .map(Modification::getPath)
                 .map(Path::toString)
                 .map(mod -> mod.replace("\\","\\\\"))
                 .toList());
 
-        text = text.replaceAll("&MODS_SERVER&", String.join(";", serverModifications));
+        text = text.replaceAll("&MODS_SERVER&", serverModifications != null ? String.join(";", serverModifications) : "");
 
-        ArrayList<String> allMods = new ArrayList<>(clientModifications);
-        allMods.addAll(serverModifications);
-        allMods.sort(Comparator.comparing(mod -> mod.contains("@")));
-        allMods = new ArrayList<>(allMods.stream().map(mod -> mod.replace("\\","\\\\")).toList());
+        ArrayList<String> allMods = new ArrayList<>();
 
-        text = text.replaceAll("&LOAD_MODS&", String.join(";", allMods));
+        if (clientModifications != null)
+            allMods.addAll(clientModifications);
+        if (serverModifications != null)
+            allMods.addAll(serverModifications);
+
+        if (!allMods.isEmpty())
+        {
+            allMods.sort(Comparator.comparing(mod -> mod.contains("@")));
+            allMods = new ArrayList<>(allMods.stream().map(mod -> mod.replace("\\","\\\\")).toList());
+        }
+
+        text = text.replaceAll("&LOAD_MODS&", !allMods.isEmpty() ? String.join(";", allMods) : "");
 
         text = text.replaceAll("&SERVER_ARGS&", SettingsManager.getServerArguments());
         text = text.replaceAll("&CLIENT_ARGS&", SettingsManager.getClientArguments());
