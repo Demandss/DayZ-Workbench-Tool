@@ -71,18 +71,18 @@ public class Main {
     }
 
     public static void globalLoadMods() {
-        ReferenceTools.MODIFICATIONS.clear();
+        ModificationManager.MODIFICATIONS.clear();
 
         List<String> mods = SettingsManager.getClientMods();
 
         for (int i = 0; i < mods.size(); i++) {
-            ReferenceTools.MODIFICATIONS.add(new Modification(mods.get(i), Modification.ESide.CLIENT,i));
+            ModificationManager.MODIFICATIONS.add(new Modification(mods.get(i), Modification.ESide.CLIENT,i));
         }
 
         mods = SettingsManager.getServerMods();
 
         for (int i = 0; i < mods.size(); i++) {
-            ReferenceTools.MODIFICATIONS.add(new Modification(mods.get(i), Modification.ESide.SERVER,i));
+            ModificationManager.MODIFICATIONS.add(new Modification(mods.get(i), Modification.ESide.SERVER,i));
         }
     }
 

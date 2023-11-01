@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 
 public class ModificationManager {
 
+    public static ArrayList<Modification> MODIFICATIONS = new ArrayList<>(Collections.emptyList());
+
     @SneakyThrows
     public static void makeMklinkMods() {
         UIManager.put("Panel.background", DarkSwingColors.FRAME_BACKGROUND);
@@ -39,7 +41,8 @@ public class ModificationManager {
             return;
         }
 
-        List<Path> modifications = new ArrayList<>(ReferenceTools.MODIFICATIONS.stream()
+        List<Path> modifications = new ArrayList<>(ModificationManager.MODIFICATIONS.stream()
+                .filter(Modification::isEnabled)
                 .filter(mod -> !mod.getName().contains("@"))
                 .map(Modification::getPath)
                 .toList());
@@ -93,7 +96,8 @@ public class ModificationManager {
             return;
         }
 
-        List<Path> modifications = new ArrayList<>(ReferenceTools.MODIFICATIONS.stream()
+        List<Path> modifications = new ArrayList<>(ModificationManager.MODIFICATIONS.stream()
+                .filter(Modification::isEnabled)
                 .filter(mod -> !mod.getName().contains("@"))
                 .map(Modification::getPath)
                 .toList());
@@ -119,7 +123,7 @@ public class ModificationManager {
     }
 
     public static void checkingExistenceMods() {
-        ArrayList<String> modifications = new ArrayList<>(ReferenceTools.MODIFICATIONS.stream()
+        ArrayList<String> modifications = new ArrayList<>(ModificationManager.MODIFICATIONS.stream()
                 .filter(mod -> !mod.getName().contains("@"))
                 .map(Modification::getPath)
                 .map(Path::toString)

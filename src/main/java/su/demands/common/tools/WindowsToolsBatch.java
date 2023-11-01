@@ -1,6 +1,7 @@
 package su.demands.common.tools;
 
 import lombok.SneakyThrows;
+import su.demands.common.ModificationManager;
 import su.demands.common.SettingsManager;
 import su.demands.elements.ModListPanel;
 import su.demands.elements.Modification;
@@ -46,7 +47,7 @@ public class WindowsToolsBatch extends ReferenceTools {
         text = text.replaceAll("&WORKDRIVE_PATH&", SettingsManager.getWorkDrivePath());
         text = text.replaceAll("&WORKBENCH_PATH&", SettingsManager.getWorkbenchPath());
 
-        Map<Modification.ESide, List<Modification>> modifications = ReferenceTools.MODIFICATIONS.stream()
+        Map<Modification.ESide, List<Modification>> modifications = ModificationManager.MODIFICATIONS.stream()
                 .collect(Collectors.groupingBy(Modification::getSide));
 
         ArrayList<String> clientModifications = null;
@@ -56,7 +57,6 @@ public class WindowsToolsBatch extends ReferenceTools {
                 .filter(Modification::isEnabled)
                 .map(Modification::getPath)
                 .map(Path::toString)
-                .map(mod -> mod.replace("\\","\\\\"))
                 .toList());
 
         text = text.replaceAll("&MODS_CLIENT&", clientModifications != null ? String.join(";", clientModifications) : "");
@@ -68,7 +68,6 @@ public class WindowsToolsBatch extends ReferenceTools {
                 .filter(Modification::isEnabled)
                 .map(Modification::getPath)
                 .map(Path::toString)
-                .map(mod -> mod.replace("\\","\\\\"))
                 .toList());
 
         text = text.replaceAll("&MODS_SERVER&", serverModifications != null ? String.join(";", serverModifications) : "");

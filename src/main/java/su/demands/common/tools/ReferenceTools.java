@@ -28,6 +28,4 @@ public class ReferenceTools {
     public static String RESOURCES_START_DEBUG_SERVER = RESOURCES + START_DEBUG_SERVER_FILENAME;
     public static String RESOURCES_START_WORKBENCH = RESOURCES + START_WORKBENCH_FILENAME;
     public static String RESOURCES_USER_SETTINGS = RESOURCES + USER_SETTINGS_FILENAME;
-
-    public static ArrayList<Modification> MODIFICATIONS = new ArrayList<>(Collections.emptyList());
 }

@@ -2,6 +2,7 @@ package su.demands.elements;
 
 import lombok.Getter;
 import su.demands.Main;
+import su.demands.common.ModificationManager;
 import su.demands.common.SettingsManager;
 import su.demands.common.tools.ReferenceTools;
 import su.demands.darkswing.DarkSwingColors;
@@ -124,7 +125,7 @@ public class ModSettingsPanel extends ModChooserPanel {
 
         Main.globalLoadMods();
 
-        ReferenceTools.MODIFICATIONS.forEach(modification -> modListPanel.addMod(modification));
+        ModificationManager.MODIFICATIONS.forEach(modification -> modListPanel.addMod(modification));
 
         modListPanel.reRenderElements();
     }
