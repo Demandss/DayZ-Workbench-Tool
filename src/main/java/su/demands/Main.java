@@ -89,7 +89,7 @@ public class Main {
     @SneakyThrows
     static void loadDayZWorkbenchToolMod() {
         //temp
-        String[] pluginFiles = {"StartDebugAll.c","StartDebugClient.c","StartDebugServer.c"};
+        String[] pluginFiles = {"StartDebugAll.c","StopDebugAll.c","StartDebugClient.c","StartDebugServer.c"};
 
         Path path = Path.of(SettingsManager.getWorkDrivePath() + "\\scripts\\editor\\plugins\\DayZWorkbenchTool\\");
 

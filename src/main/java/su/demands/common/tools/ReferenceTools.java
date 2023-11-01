@@ -12,6 +12,7 @@ public class ReferenceTools {
     public static String RESOURCES = "/assets/tools";
     public static String FIX_SCRIPTS_FILENAME = "/fixScripts.bat";
     public static String START_DEBUG_ALL_FILENAME = "/StartDebugAll.bat";
+    public static String STOP_DEBUG_ALL_FILENAME = "/StartDebugAll.bat";
     public static String START_DEBUG_CLIENT_FILENAME = "/StartDebugClient.bat";
     public static String START_DEBUG_SERVER_FILENAME = "/StartDebugServer.bat";
     public static String START_WORKBENCH_FILENAME = "/StartWorkbench.bat";
@@ -24,6 +25,7 @@ public class ReferenceTools {
     public static String DATA_PATH_USER_SETTINGS = DATA_PATH + USER_SETTINGS_FILENAME;
     public static String RESOURCES_FIX_SCRIPTS = RESOURCES + FIX_SCRIPTS_FILENAME;
     public static String RESOURCES_START_DEBUG_ALL = RESOURCES + START_DEBUG_ALL_FILENAME;
+    public static String RESOURCES_STOP_DEBUG_ALL = RESOURCES + STOP_DEBUG_ALL_FILENAME;
     public static String RESOURCES_START_DEBUG_CLIENT = RESOURCES + START_DEBUG_CLIENT_FILENAME;
     public static String RESOURCES_START_DEBUG_SERVER = RESOURCES + START_DEBUG_SERVER_FILENAME;
     public static String RESOURCES_START_WORKBENCH = RESOURCES + START_WORKBENCH_FILENAME;

@@ -28,6 +28,9 @@ public class WindowsToolsBatch extends ReferenceTools {
         if (!Files.exists(Path.of(toolsPath + START_DEBUG_ALL_FILENAME)))
             Files.copy(Objects.requireNonNull(getClass().getResourceAsStream(RESOURCES_START_DEBUG_ALL)),Path.of(toolsPath + START_DEBUG_ALL_FILENAME));
 
+        if (!Files.exists(Path.of(toolsPath + STOP_DEBUG_ALL_FILENAME)))
+            Files.copy(Objects.requireNonNull(getClass().getResourceAsStream(RESOURCES_STOP_DEBUG_ALL)),Path.of(toolsPath + STOP_DEBUG_ALL_FILENAME));
+
         if (!Files.exists(Path.of(toolsPath + START_DEBUG_CLIENT_FILENAME)))
             Files.copy(Objects.requireNonNull(getClass().getResourceAsStream(RESOURCES_START_DEBUG_CLIENT)),Path.of(toolsPath + START_DEBUG_CLIENT_FILENAME));
 
@@ -59,7 +62,9 @@ public class WindowsToolsBatch extends ReferenceTools {
                 .map(Path::toString)
                 .toList());
 
-        text = text.replaceAll("&MODS_CLIENT&", clientModifications != null ? String.join(";", clientModifications) : "");
+        System.out.println(clientModifications);
+
+        text = text.replaceAll("&MODS_CLIENT&", (clientModifications != null ? String.join(";", clientModifications) : "").replace("\\","\\\\"));
 
         ArrayList<String> serverModifications = null;
 
@@ -70,7 +75,7 @@ public class WindowsToolsBatch extends ReferenceTools {
                 .map(Path::toString)
                 .toList());
 
-        text = text.replaceAll("&MODS_SERVER&", serverModifications != null ? String.join(";", serverModifications) : "");
+        text = text.replaceAll("&MODS_SERVER&", (serverModifications != null ? String.join(";", serverModifications) : "").replace("\\","\\\\"));
 
         ArrayList<String> allMods = new ArrayList<>();
 
