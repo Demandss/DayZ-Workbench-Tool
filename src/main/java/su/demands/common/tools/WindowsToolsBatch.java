@@ -62,8 +62,6 @@ public class WindowsToolsBatch extends ReferenceTools {
                 .map(Path::toString)
                 .toList());
 
-        System.out.println(clientModifications);
-
         text = text.replaceAll("&MODS_CLIENT&", (clientModifications != null ? String.join(";", clientModifications) : "").replace("\\","\\\\"));
 
         ArrayList<String> serverModifications = null;
