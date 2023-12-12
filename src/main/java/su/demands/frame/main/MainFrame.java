@@ -48,6 +48,17 @@ public class MainFrame extends BaseFrame {
         }
     }
 
+    void toolsStopWorkbenchMenuItemAction(ActionEvent event) {
+        String[] tasks = {"workbenchApp.exe","DayZDiag_x64.exe"};
+        for (String task : tasks) {
+            try {
+                Runtime.getRuntime().exec("cmd /c tasklist | find /i \"%task%\">nul && Taskkill /F /IM  \"%task%\"".replaceAll("%task%",task));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     void removeMklinkMenuItemAction(ActionEvent event) {
         ModificationManager.removeMklinkMods();
     }

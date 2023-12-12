@@ -46,6 +46,16 @@ public class MainFrameDesign {
 
         toolsMenu.add(fixScriptsMenuItem);
 
+        JMenuItem stopWorkbenchMenuItem = new JMenuItem();
+        stopWorkbenchMenuItem.setBackground(frame.getBackground());
+        stopWorkbenchMenuItem.setForeground(DarkSwingColors.TEXT_FOREGROUND);
+        stopWorkbenchMenuItem.setFont(new Font("Inter", Font.PLAIN,10));
+        stopWorkbenchMenuItem.setText("stopWorkbench");
+        stopWorkbenchMenuItem.setToolTipText("Stop workbench and everything that is running with it");
+        stopWorkbenchMenuItem.addActionListener(frame::toolsStopWorkbenchMenuItemAction);
+
+        toolsMenu.add(stopWorkbenchMenuItem);
+
         JMenuItem removeMklinkMenuItem = new JMenuItem();
         removeMklinkMenuItem.setBackground(frame.getBackground());
         removeMklinkMenuItem.setForeground(DarkSwingColors.TEXT_FOREGROUND);
